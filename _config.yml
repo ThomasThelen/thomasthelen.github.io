@@ -22,9 +22,9 @@ repository               : "thomasthelen/thomasthelen.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "Thomas Theleen"
+  name             : "Thomas Thelen"
   pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
+  bio              : "Knowledge Graph Engineer"
   location         : "Carmel, Ca"
   employer         : ""
   uri              : # URL
