@@ -10,55 +10,58 @@ redirect_from:
 {% include base_path %}
 
 Education
-======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+=========
+
+* B.S. in Chemical Engineering, Montana State University, 2015
+* M.S Computer Science, ASU, 2024-Present
 
 Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * Github University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+===============
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* 2023-Current: Consultant for GSK
+  * Knowledge Engineer
 
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* Fall 2022-2023: Consultant for Walmart
+  * Knowledge Graph Engineer
+
+* 2021-2022: JW Player
+  * Software Engineer on the analytics team
   
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* 2017-2022: National Center for Ecological Analysis and Synthesis
+  * Scientific Software Engineer
+  * Worked on research grants related to the environmental sciences
+
+* 2016-2017: Wyatt Technology
+  * Software Engineer
+  * C++ Desktop development on pharma hardware for nanoparticle characterization
+
+* 2015: Ranch Hand
+  * Stable Boy
+  * Trained horses
+  * Cleaned stables
+  * General ranch maintenance (fixing waterlines, fences, etc)
+
+* 2014: Concrete & Excavation Crew
+  * Laborer
+  * Picked up heavy things and put them down
+  * Operated excavators, dozers, etc
+
+Certifications
+==============
+
+* Wilderness First Responder
+* Emergency Medical Technician
+* Certified Human Trafficking Investigator (CHTI)
+* Neo4j Certified Professional
 
 Publications
-======
+============
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
 Talks
-======
+=====
   <ul>{% for post in site.talks reversed %}
     {% include archive-single-talk-cv.html  %}
   {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
