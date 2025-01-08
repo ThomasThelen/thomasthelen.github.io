@@ -4,7 +4,7 @@ collection: publications
 category: manuscripts
 permalink: /publication/wt
 excerpt: 'In this work we explore barriers and opportunities for extending the Whole Tale in-frastructure to facilitate reproducible data-intensive research at scale.'
-date: 2020
+date: 2020-01-01
 venue: 'Parallel Computing: Technology Trends'
 #slidesurl: 'http://academicpages.github.io/files/slides2.pdf'
 paperurl: 'https://ebooks.iospress.nl/pdf/doi/10.3233/APC200107'
