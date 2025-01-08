@@ -18,13 +18,13 @@ Education
 Work experience
 ===============
 
-* 2023-Current: Consultant for GSK
+* 2024-Current: Consultant for GSK
   * Knowledge Engineer
 
-* Fall 2022-2023: Consultant for Walmart
+* 2023-2024: Consultant for Walmart
   * Knowledge Graph Engineer
 
-* 2021-2022: JW Player
+* 2022-2023: JW Player
   * Software Engineer on the analytics team
   
 * 2017-2022: National Center for Ecological Analysis and Synthesis
