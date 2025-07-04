@@ -103,14 +103,29 @@ For this reason the A-Box below is pretty simple: it describes a few people and 
     foaf:website "https://www.google.com/" .
 
 <http://thomasthelen.com/novocab/org_2> a foaf:Organization;
-    foaf:name "Evil megacorp" ;
-    foaf:website "https://www.wyatt.com/" .
+    foaf:name "Evil megacorp II" ;
+    foaf:website "https://www.microsoft.com/" .
 ```
 
 ### Step 2: Generate SHACL Shapes
 
-To generate the SHACL shapes
+To generate the SHACL shapes you'll have to jump through a few hoops.
 
-### Step 3: 
+1. Download 
+2. Convert the ttl to n-triples
+3. Safe the file somewhere
+4. Open up the config.properties from the QSE root directory
+5. Modify the paths to match where your data file is, and change the QSE directories to match your path
+6. Run `java -jar -Xmx16g  jar/qse.jar config.properties &> output.logs`
+7. Check the log file to make sure it worked
+8. Find the shapes in the Output/ folder
+
+### Step 3: Run KG2PG
+
+This is another poor process where the config needs to be updated with custom paths and there aren't any instructions on how to use the project with a custom dataset.
+
+Having spent five years as a research software engineer at a university, I know that these projects can be a black hole of time, trying to reverse engineer the codebase to figure out to use it for my particular use case. Rather than spending my time with that, I'm deciding to call it here.
 
 ## Concluding thoughts
+
+My concluding thoughts are that this is another poorly supported academic project that explores a neat concept - but fails in its execution of making the process user friendly or easy to integrate into a professional software product.
