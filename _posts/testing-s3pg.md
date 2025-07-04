@@ -128,4 +128,4 @@ Having spent five years as a research software engineer at a university, I know 
 
 ## Concluding thoughts
 
-My concluding thoughts are that this is another poorly supported academic project that explores a neat concept - but fails in its execution of making the process user friendly or easy to integrate into a professional software product.
+My concluding thoughts are that this is another poorly supported academic project that explores a neat concept - but fails in its execution of making the process user friendly or easy to integrate into a professional software product. Generating *accurate* shacl shapes involves more legwork (more config files) than what was done above, the lack of stable versioning, a deployment system that breaks normal Java conventions, and _more_ config and metadata files are needed for running KF2PG. Sadly, this isn't a stack that can incorporated into an existing framework.
