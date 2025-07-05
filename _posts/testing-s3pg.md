@@ -122,10 +122,15 @@ To generate the SHACL shapes you'll have to jump through a few hoops.
 
 ### Step 3: Run KG2PG
 
-This is another poor process where the config needs to be updated with custom paths and there aren't any instructions on how to use the project with a custom dataset.
+This application has a similar process to QSE:
 
-Having spent five years as a research software engineer at a university, I know that these projects can be a black hole of time, trying to reverse engineer the codebase to figure out to use it for my particular use case. Rather than spending my time with that, I'm deciding to call it here.
+1. Clone the repository
+2. Modify the config.properties file
+3. Start Neo4j
+4. Rather than using a jar, run the supplied dockerfile with the correct params
+4. Get the output on the local filesystem
+
+KG2PG has several other features, for example it can do change data capture on new data and also abstracts the process of putting the data in Neo4j. We won't make use of the first feature however, we will put the data in Neo4j to validate.
 
 ## Concluding thoughts
 
-My concluding thoughts are that this is another poorly supported academic project that explores a neat concept - but fails in its execution of making the process user friendly or easy to integrate into a professional software product. Generating *accurate* shacl shapes involves more legwork (more config files) than what was done above, the lack of stable versioning, a deployment system that breaks normal Java conventions, and _more_ config and metadata files are needed for running KF2PG. Sadly, this isn't a stack that can incorporated into an existing framework.
