@@ -1,11 +1,11 @@
 ---
-title: 'Transforming Knowledge Graphs to LPG with S3PG'
-date: 2025-03-06
-permalink: /posts/s3pg
+title: 'Transforming Knowledge Graphs to LPG with KG2PG'
+date: 2025-07-08
+permalink: /posts/kg2pg
 tags:
   - knowledge-graph
 ---
-# Transforming Knowledge Graphs to Labeled Property Graphs with S3PG
+# Transforming Knowledge Graphs to Labeled Property Graphs with KG2PG
 
 ## Background
 
@@ -65,20 +65,22 @@ My point here is that it's a topic people actively think and write about. When n
 
 ## Enter: Lossless Transformations of Knowledge Graphs to Property Graphs using Standardized Schemas
 
-This paper was published in 2024 from . Based on the title, it sounds like they're using a standardized format to bridge the RDF and LPG models; to me this belongs in my bucket of metarepresentation solutions. In fact, the Abstract lays it all out.
+This paper was published in 2024 from the DKW Group at Aalborg University, Denmark. Based on the title, it sounds like they're using a standardized glue format to bridge the RDF and LPG models; to me this belongs in my bucket of metarepresentation solutions. In fact, the Abstract lays it all out.
 
-> To enhance the in-teroperability of the two models, we present a novel technique, S3PG, to convert RDF knowledge graphs into property graphs ex- ploiting two popular standards to express schema constraints, i.e., SHACL for RDF and PG-Schema for property graphs. 
+> To enhance the in-teroperability of the two models, we present a novel technique, S3PG, to convert RDF knowledge graphs into property graphs ex-ploiting two popular standards to express schema constraints, i.e., SHACL for RDF and PG-Schema for property graphs. 
 
-So there you have it. By using SHACL and PG-Schema you can transform your RDF knowledge graph to LPG. The authors released a python package, [S3PG](), on GitHub which allows mere mortals to convert their RDF to LPG.
+So there you have it. By using SHACL and PG-Schema you can transform your RDF knowledge graph to LPG. The authors released a a tool, [KG2PG](https://github.com/dkw-aau/KG2PG), on GitHub which allows mere mortals to convert their RDF to LPG.
+
+**Important Note**: The tool relies on Neo4j's NeoSemantics plugin and writes data in a Neo4j specific format. If you're using other graph databases - this tool might not be for you.
 
 ## Evaluation
 
-When it comes to testing RDF->LPG systems I find it easiest to focus on small bits of data at a time. To evaluate S3PG I'm deciding to use the foaf ontology with a fairly light A-Box, just enough to cover several cases. I don't believe there are official foaf SHACL shapes available however, the S3PG documentation suggests using [QSE](https://github.com/dkw-aau/qse) to extract SHACL shapes from my RDF data.
+When it comes to testing RDF->LPG systems I find it easiest to focus on small bits of data at a time. To evaluate S3PG I'm deciding to use the foaf ontology with a fairly light A-Box, just enough to cover several cases. I don't believe there are official foaf SHACL shapes available however, the S3PG documentation suggests using [QSE](https://github.com/dkw-aau/qse) to extract SHACL shapes from RDF data.
 
 
 ### Step 1: Test Data
 
-For this reason the A-Box below is pretty simple: it describes a few people and the organizations they work at. 
+The simple abox below describes three people and two organizations. It's fairly light, but should give us something to look at as an LPG.
 
 ```
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -111,7 +113,7 @@ For this reason the A-Box below is pretty simple: it describes a few people and 
 
 To generate the SHACL shapes you'll have to jump through a few hoops.
 
-1. Download 
+1. Clone QSE
 2. Convert the ttl to n-triples
 3. Safe the file somewhere
 4. Open up the config.properties from the QSE root directory
@@ -122,15 +124,48 @@ To generate the SHACL shapes you'll have to jump through a few hoops.
 
 ### Step 3: Run KG2PG
 
-This application has a similar process to QSE:
+KG2PG comes as an executable jar that looks for the shapes and data in a folder called `./data`.
 
-1. Clone the repository
-2. Modify the config.properties file
-3. Start Neo4j
-4. Rather than using a jar, run the supplied dockerfile with the correct params
-4. Get the output on the local filesystem
+1. Download KG2PG with `wget https://github.com/dkw-aau/KG2PG/releases/latest/download/kg2pg-v1.0.4.jar`
+2. Create a `./data/` folder
+3. Place the SHACL shapes and data in the folder
+4. Modify config.properties to point to your data file and shapes file
+5. Run KG2PG with `java -jar kg2pg-v1.0.4.jar`
+
+The output should appear in the `./Output` folder. Note that there are several different files. If you open them - they should look like they have _something_ to do with your original dataset.
 
 KG2PG has several other features, for example it can do change data capture on new data and also abstracts the process of putting the data in Neo4j. We won't make use of the first feature however, we will put the data in Neo4j to validate.
 
+
+### Step 4: Loading into Neo4j
+
+Now that the Neo4j data artifacts have been created, it's time to load them with the `neo4j-admin` tool. Each neo4j repositorydatabase has it's own `./bin` folder, which is where the tool lives.
+
+1. Begin by creating a new new4j database
+2. Add the NeoSemantics and cypher plugins
+3. Open the neo4j terminal (see image below)
+4. `cd bin`
+5. Run `./neo4j-admin database import full --delimiter="|" --array-delimiter=";" --nodes=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_NODES_LITERALS.csv --nodes=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_NODES_WD_LABELS.csv --relationships=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_RELATIONS.csv` (replace my paths with yours)
+6. Open the Neo4j browser and check the graph
+
+**Neo4j terminal**
+![](../images/posts/kg2pg/neo4j-terminal.png)
+
+**Output of the tool**
+
+![](../images/posts/kg2pg/tool-output.png)
+
+**Neo4j browser**
+
+The time has finally come to look at the data as a labeled property graph. The first image below shows the three people, defined above in the RDF. Note how the name, nick, other string values are treated as first class nodes rather than as properties.
+
+![](../images/posts/kg2pg/persons.png)
+
+Same deal with the Organization node types.
+
+![](../images/posts/kg2pg/orgs.png)
+
 ## Concluding thoughts
+
+The two tools create a neat pipeline for getting RDF data into Neo4j. _I'm still not sure how this compares to importing RDF with NeoSemantics_. With NeoSemantics, it's possible to import RDF data as-is, which seems to give okay results. As the LPG/RDF spaces continue to converge, I'll be keeping my eyes open for solutions with less configuration and process.
 
