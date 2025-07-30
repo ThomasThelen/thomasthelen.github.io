@@ -141,11 +141,11 @@ Further down in the record we actually describe each dataset where we can declar
 
 The HTTP framework supports the notion of content negotiation: the ability to request information in a particular format, specified in the `Accept` header. The essence of linked data is being able to navigate from one piece of information (the source) to another (the destination) and selecting the appropriate content via this feature. The allows agents to navigate in a linked-list like fashion while requesting the machine readable version of the content (typically in RDF).
 
-![](../images/posts/ai-ready/node-deref.svg)
+![](/images/posts/ai-ready/node-deref.svg)
 
 The gist is that an agent decides to request information about a web resource (specified by its URI). It sends a GET request and requests the response be in rdf/xml. The load balancer identifies a request that matches some vocabulary or resource term (eg, example.com/resources/*). Next, it forwards the request to an API which constructs a SPARQL query, sends it to the graph database, and replies with the data. The agent receives the data, parses it out and decides to request information on a *new* URI. It sends a GET request, and the process repeats.
 
-![](../images/posts/ai-ready/cn-stack.svg)
+![](/images/posts/ai-ready/cn-stack.svg)
 
 Dereferencing is sometimes supported out-of-the-box by graph vendors for example, OpenLink Virtuoso. Other times it needs to be implemented by hand which typically consists of a load balancer and several systems that provide content in different formats.
 
