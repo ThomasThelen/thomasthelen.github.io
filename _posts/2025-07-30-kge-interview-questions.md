@@ -20,14 +20,30 @@ The RDF space is pretty wide: questions can range from data modeling, graph data
 This is a common question that tries to trick you with a common misconception around data modeling. The wrong answer would be that `rdfs:domain` and `rdfs:range` place restrictions on the data however, these annotations are actually for the logic reasoner. For restrictions, SHACL would need to be utilized. For example, the following ontology snippet states that the domain and range of the relation "tt:knows" are `foaf:Person`.
 
 ```
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tt: <http://example.org/ontology/> .
 
+tt:Person a owl:Class ;
+    rdfs:label "Person" ;
+
+tt:Dog a owl:Class ;
+    rdfs:label "Dog" ;
+
+# Object Properties
+tt:knows a owl:ObjectProperty ;
+    rdfs:label "knows" ;
+    rdfs:domain tt:Person ;
+    rdfs:range tt:Person ;
+    a owl:SymmetricProperty .
+
+tt:SparkyTheDog a tt:Dog .
+tt:CharlesTheDog a tt:Dog .
 ```
 
-The misconception arises as a bug when the t-box is inserted into the graph and the relation `<tt:SparkyTheDog> tt:knows <tt:Python>` materializes, which is clearly incorrect.
+The misconception arises as a bug when the t-box, `<tt:SparkyTheDog> tt:knows <tt:CharlesTheDog>` is inserted into the graph and the relations `<tt:SparkyTheDog> rdf:type tt:Person` and `<tt:CharlesTheDog> rdf:type tt:Person` materialize, which is clearly incorrect.
 
-```
 
-```
 
 **What is the difference between RDF, RDFS, and OWL?**
 
