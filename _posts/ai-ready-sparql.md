@@ -1,10 +1,11 @@
 ---
-title: 'Changes to RDF in 1.2'
-date: 2025-03-06
-permalink: /posts/
+title: 'AI Ready Linked Data'
+date: 2025-07-29
+permalink: /posts/ai-linked-data/
 tags:
   - knowledge-graph
 ---
+
 # Agent Ready Linked Data
 
 The semantic web's vision is to have highly structured information on the internet that's easy for agents to ingest. In this model, autonomous agents can freely navigate, understand, and make  decisions while parsing web content. The World Wide Web Consortium (W3C) is largely responsible for fostering this effort, which has led to a number of standards and recommendations. The W3C blessed way of achieving the semantic web is by having HTTP dereferencable URI's (this allows agents to follow information like a linked list) and public SPARQL endpoints where data can be queried freely. 
