@@ -1,7 +1,7 @@
 ---
 title: 'AI Ready Linked Data'
 date: 2025-07-29
-permalink: /posts/ai-linked-data/
+permalink: /posts/ai-ready-linked-data/
 tags:
   - knowledge-graph
 ---
