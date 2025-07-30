@@ -41,7 +41,7 @@ tt:SparkyTheDog a tt:Dog .
 tt:CharlesTheDog a tt:Dog .
 ```
 
-The misconception arises as a bug when the t-box, `<tt:SparkyTheDog> tt:knows <tt:CharlesTheDog>` is inserted into the graph and the relations `<tt:SparkyTheDog> rdf:type tt:Person` and `<tt:CharlesTheDog> rdf:type tt:Person` materialize, which is clearly incorrect.
+The misconception arises as a bug when the t-box, `<tt:SparkyTheDog> tt:knows <tt:CharlesTheDog>` is inserted into the graph and the relations `<tt:SparkyTheDog> rdf:type tt:Person` and `<tt:CharlesTheDog> rdf:type tt:Person` materialize, which is clearly incorrect - but can be traced back to the domain and range axioms previously declared.
 
 
 
