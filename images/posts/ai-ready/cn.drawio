@@ -1,0 +1,46 @@
+<mxfile host="Electron" modified="2025-07-30T17:37:21.542Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="dqQ3yW9MQTPXStFNhcN6" version="21.6.8" type="device">
+  <diagram name="Page-1" id="GiwJ_IhiLyY2HmDD9rlE">
+    <mxGraphModel dx="920" dy="566" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;" edge="1" parent="1" source="Bq09FLA8L_on5UZx5zDG-1" target="Bq09FLA8L_on5UZx5zDG-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-1" value="Agent/Person" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=3;" edge="1" parent="1" source="Bq09FLA8L_on5UZx5zDG-2" target="Bq09FLA8L_on5UZx5zDG-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;" edge="1" parent="1" source="Bq09FLA8L_on5UZx5zDG-2" target="Bq09FLA8L_on5UZx5zDG-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1" source="Bq09FLA8L_on5UZx5zDG-2" target="Bq09FLA8L_on5UZx5zDG-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-2" value="Reverse Proxy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;glass=0;shadow=0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="440" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-4" value="HTTP Web Server" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="690" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-5" value="&lt;font color=&quot;#d6b656&quot;&gt;&amp;nbsp; http://thomasthelen.com/CarlSagan accept: text/html&lt;br&gt;&lt;/font&gt;&lt;font color=&quot;#82b366&quot;&gt;&amp;nbsp; &amp;nbsp;http://thomasthelen.com/CarlSagan accept: text/turtle&lt;br&gt;&lt;/font&gt;&lt;font color=&quot;#b85450&quot;&gt;http://thomasthelen.com/Ontology accept: text/turtle&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="155" y="460" width="310" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-6" value="Graph Database" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="690" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-7" value="Ontology Files on Disk" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="690" y="480" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-12" value="HTTP Request" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="380" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Bq09FLA8L_on5UZx5zDG-13" value="&lt;h1&gt;Content Negotiation&lt;/h1&gt;&lt;p&gt;HTTP requests are routed to different services based on the content type they return&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="230" y="210" width="340" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

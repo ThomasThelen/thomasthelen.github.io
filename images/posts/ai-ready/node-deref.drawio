@@ -1,0 +1,64 @@
+<mxfile host="Electron" modified="2025-07-30T17:42:48.575Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="4rLGLJbe3wowS6knJal5" version="21.6.8" type="device">
+  <diagram name="Page-1" id="7NN4KK9AtlOIBTEgE5_8">
+    <mxGraphModel dx="1242" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="180" width="340" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeWidth=3;" edge="1" parent="1" source="1P8Q-VNiO8tk5N9CfiL8-3" target="1P8Q-VNiO8tk5N9CfiL8-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-10" value="HTTP GET Request" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1P8Q-VNiO8tk5N9CfiL8-6">
+          <mxGeometry x="0.07" y="16" relative="1" as="geometry">
+            <mxPoint y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-3" value="Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="270" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeWidth=3;" edge="1" parent="1" source="1P8Q-VNiO8tk5N9CfiL8-5" target="1P8Q-VNiO8tk5N9CfiL8-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-5" value="Web resource" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="430" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeWidth=3;" edge="1" parent="1" source="1P8Q-VNiO8tk5N9CfiL8-7" target="1P8Q-VNiO8tk5N9CfiL8-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-14" value="HTTP GET Request to new resource" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1P8Q-VNiO8tk5N9CfiL8-13">
+          <mxGeometry x="-0.4667" y="20" relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-7" value="Agent parses and makes new decisions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;curved=1;" edge="1" parent="1" source="1P8Q-VNiO8tk5N9CfiL8-12" target="1P8Q-VNiO8tk5N9CfiL8-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-20" value="Return RDF back to the agent" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1P8Q-VNiO8tk5N9CfiL8-18">
+          <mxGeometry x="-0.47" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-12" value="Web resource" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="660" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-15" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Search via node dereferencing&lt;/span&gt;&lt;/h1&gt;&lt;h1&gt;&lt;br&gt;&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="225" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-16" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;.&lt;br&gt;.&lt;br&gt;.&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="395" y="870" width="60" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-17" value="Agent parses and makes new decisions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1P8Q-VNiO8tk5N9CfiL8-19" value="Returns RDF back to the agent" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="500" y="530" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
