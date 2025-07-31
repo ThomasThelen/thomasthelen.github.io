@@ -185,3 +185,9 @@ This one was a bit tough - the only reasons I could think of are to clear the ca
 **Why would you write custom stored procedures?**
     
 Stored procedures should be used to improve query performance by manually leveraging the Java transaction API and when loading bulk data. By leveraging the transaction API the query planner is bypassed, giving finer control of how the data is navigated to answer the query. Note that stored procedures for query answering are usually one-off and targeted for specific queries.
+
+**What are several ways to visualize graph data?**
+
+1. The main Neo4j query interface displays CYPHER query results. I've found that I hit performance issues when visualizing large number of nodes and the visualization window is fairly small.
+2. Neo4j offers Neodash, which is a dashboard application built on top of Neo4j. It allows for quick control creation (pie charts, bar charts, etc) from CYPHER queries. It's a great way to show summaries of data, but not for the overall network structure.
+3. Neo4j also has a Gephi plugin that allows for sending data from a CYPHER query directly to Gephi where it can be visualized. Gephi is able to render large graphs and has a breadth of ways to tweak the visualizations. This is my go-to for visualizing large graphs however, the setup process can be cumbersome and I don't ask others to replicate the process.
