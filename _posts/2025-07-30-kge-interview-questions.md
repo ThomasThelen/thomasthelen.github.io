@@ -10,6 +10,11 @@ tags:
 
 Over the past several years I've been been on both ends of interviews for knowledge graph engineers. The gist of these interviews is that there's usually a soft portion centered around success (or failure) stories of getting graph systems in production. There's also usually a technical round that involves questions specific to graph and less so around typical DSA questions. Below are a number of questions I've asked and been asked. Most of these can be answered by regurgitating the output of an LLM, so try and add a touch of personal experience with each one to set yourself aside.
 
+# Cheat Sheet
+
+All the info in a single image
+
+![](/images/posts/kg-interviews/prep.svg)
 
 # RDF
 
@@ -41,8 +46,7 @@ tt:SparkyTheDog a tt:Dog .
 tt:CharlesTheDog a tt:Dog .
 ```
 
-The misconception arises as a bug when the t-box, `<tt:SparkyTheDog> tt:knows <tt:CharlesTheDog>` is inserted into the graph and the relations `<tt:SparkyTheDog> rdf:type tt:Person` and `<tt:CharlesTheDog> rdf:type tt:Person` materialize, which is clearly incorrect - but can be traced back to the domain and range axioms previously declared.
-
+The misconception arises as a bug when the a-box, `<tt:SparkyTheDog> tt:knows <tt:CharlesTheDog>` is inserted into the graph and the relations `<tt:SparkyTheDog> rdf:type tt:Person` and `<tt:CharlesTheDog> rdf:type tt:Person` materialize, which is clearly incorrect - but can be traced back to the domain and range axioms previously declared.
 
 
 **What is the difference between RDF, RDFS, and OWL?**
