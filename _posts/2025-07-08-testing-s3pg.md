@@ -9,7 +9,7 @@ tags:
 
 ## Background
 
-If you're reading this, then chances are you already know that there are two predominant frameworks for graph technology: RDF and LPG. Graphs in each framework differ from each other in several critical areas, mostly due to the different goals of each. While RDF aims to describe web resources while supporting logical reasoning on its data. Bringing these concepts over to RDF has been a topic of a number of papers; I've listed a few below to get an idea of interest in the field (don't actually read them).
+If you're reading this, then chances are you already know that there are two predominant frameworks for graph technology: RDF and LPG. Graphs in each framework differ from each other in several critical areas, mostly due to each solving a different set of problems. While RDF aims to describe web resources while supporting logical reasoning on its data, LPG focuses more on data science applications. Bringing these concepts over to RDF has been a topic of a number of papers; I've listed a few below to get an idea of interest in the field (don't actually read them).
 
 2010 - [A Tale of Two Graphs: Property Graphs as RDF in Oracle](https://openproceedings.org/EDBT/2014/edbticdt2014industrial_submission_28.pdf)
 
@@ -25,11 +25,9 @@ If you're reading this, then chances are you already know that there are two pre
 
 2019 - [RDF and Property Graphs Interoperability: Status and Issues](https://ceur-ws.org/Vol-2369/paper01.pdf)
 
-2020 - [The GraphBRAIN System for Knowledge Graph
-Management and Advanced Fruition](https://www.researchgate.net/profile/Stefano-Ferilli/publication/344427830_The_GraphBRAIN_System_for_Knowledge_Graph_Management_and_Advanced_Fruition/links/61997ff9d7d1af224b11eaa9/The-GraphBRAIN-System-for-Knowledge-Graph-Management-and-Advanced-Fruition.pdf)
+2020 - [The GraphBRAIN System for Knowledge Graph Management and Advanced Fruition](https://www.researchgate.net/profile/Stefano-Ferilli/publication/344427830_The_GraphBRAIN_System_for_Knowledge_Graph_Management_and_Advanced_Fruition/links/61997ff9d7d1af224b11eaa9/The-GraphBRAIN-System-for-Knowledge-Graph-Management-and-Advanced-Fruition.pdf)
 
-2020 - [G2GML: Graph to Graph Mapping Language for Bridging RDF and
-Property Graphs](https://arxiv.org/abs/2203.06393)
+2020 - [G2GML: Graph to Graph Mapping Language for Bridging RDF and Property Graphs](https://arxiv.org/abs/2203.06393)
 
 2020 - [Mapping rdf databases to property graph databases](http://ieeexplore.ieee.org/document/9088985/)
 
@@ -37,11 +35,9 @@ Property Graphs](https://arxiv.org/abs/2203.06393)
 
 2020 - [Transforming RDF to Property Graph in Hugegraph](https://dl.acm.org/doi/10.1145/3410352.3410833)
 
-2021 - [Semantic Property Graph for Scalable Knowledge
-Graph Analytics](https://arxiv.org/pdf/2009.07410)
+2021 - [Semantic Property Graph for Scalable Knowledge Graph Analytics](https://arxiv.org/pdf/2009.07410)
 
-2022 - [The OneGraph vision: Challenges of breaking
-the graph model lock-in](https://journals.sagepub.com/doi/pdf/10.3233/SW-223273)
+2022 - [The OneGraph vision: Challenges of breaking the graph model lock-in](https://journals.sagepub.com/doi/pdf/10.3233/SW-223273)
 
 2022 - [Converting property graphs to RDF: a preliminary study of the practical impact of different mappings](https://dl.acm.org/doi/pdf/10.1145/3534540.3534695)
 
@@ -61,13 +57,13 @@ the graph model lock-in](https://journals.sagepub.com/doi/pdf/10.3233/SW-223273)
 
 2024 - [LPG Semantic Ontologies: A Tool for Interoperable Schema Creation and Management](https://www.mdpi.com/2078-2489/15/9/565)
 
-My point here is that it's a topic people actively think and write about. When new papers are published about reconciliations between RDF and LPG - they're almost always exploring some small aspect (reasoning, or rdf*, or under special conditions). Because of the asterisks, caution, and red tape that usually comes with converting RDF to LPG - I tend to avoid the conversion process.
+My point here is that it's a topic people actively think and write about. When new papers are published about reconciliations between RDF and LPG - they're almost always exploring some small aspect (reasoning, or rdf*, or some other aspect under special conditions). Because of the asterisks, caution, and red tape that usually comes with converting RDF to LPG - I tend to avoid the conversion process.
 
 ## Enter: Lossless Transformations of Knowledge Graphs to Property Graphs using Standardized Schemas
 
 This paper was published in 2024 from the DKW Group at Aalborg University, Denmark. Based on the title, it sounds like they're using a standardized glue format to bridge the RDF and LPG models; to me this belongs in my bucket of metarepresentation solutions. In fact, the Abstract lays it all out.
 
-> To enhance the in-teroperability of the two models, we present a novel technique, S3PG, to convert RDF knowledge graphs into property graphs ex-ploiting two popular standards to express schema constraints, i.e., SHACL for RDF and PG-Schema for property graphs. 
+> To enhance the interoperability of the two models, we present a novel technique, S3PG, to convert RDF knowledge graphs into property graphs exploiting two popular standards to express schema constraints, i.e., SHACL for RDF and PG-Schema for property graphs. 
 
 So there you have it. By using SHACL and PG-Schema you can transform your RDF knowledge graph to LPG. The authors released a a tool, [KG2PG](https://github.com/dkw-aau/KG2PG), on GitHub which allows mere mortals to convert their RDF to LPG.
 

@@ -6,9 +6,9 @@ tags:
   - knowledge-graph
 ---
 
-# Knowledge Graph Engineer Interview Questions
+# Knowledge Graph Engineer Interview Questions (for data engineering)
 
-Over the past several years I've been been on both ends of interviews for knowledge graph engineers. The gist of these interviews is that there's usually a soft portion centered around success (or failure) stories of getting graph systems in production. There's also usually a technical round that involves questions specific to graph and less so around typical DSA questions. Below are a number of questions I've asked and been asked. Most of these can be answered by regurgitating the output of an LLM, so try and add a touch of personal experience with each one to set yourself aside.
+Over the past several years I've been been on both ends of interviews for knowledge graph engineers. The gist of these interviews is that there's usually a soft portion centered around success (or failure) stories of getting graph systems in production followed by a technical round that involves questions specific to graph and less so around typical DSA questions. Below are a number of questions I've asked and been asked.
 
 # Cheat Sheet
 
@@ -79,13 +79,17 @@ Within the OWL ecosystem, there are several _profiles_ that have guarantees arou
 
 1. Apache Jena: My go-to for RDF work. It's been around for 20+ years, is open source, supports enterprise features, and is free.
 
-2. RDF4J: Another open source RDF solution that's had years of community development. I use this for embedded applications however, it lacks enterprise features.
+2. RDF4J: Another open source RDF solution that's had years of community development. I use this for embedded applications however, it lacks some enterprise features.
 
-3. Ontotext GraphDB: This used to be my go-to until the recent licensing changes. It's a great out-of-the-box solution that includes an intuitive interface. The enterprise version supports additional features like HA clusters.
+3. GraphWise GraphDB: This used to be my go-to until the recent licensing changes. It's a great out-of-the-box solution that includes an intuitive interface. The enterprise version supports additional features like HA clusters.
 
 4. Stardog: Another closed source graph database that provides an out-of-the-box experience. It's locked behind hefty licensing which makes evaluation difficult.
 
-5. QLever: Less so a graph database than a query interface for RDF data. One of the benefits is that it's lightweight, easy to deploy, and comes with a UI. 
+5. QLever: Lightweight, comes with a UI, supports geosparql, and is free.
+
+6. Openlink Virtuoso: Solid graph database that supports billions of nodes with ease. Also involved with the community for some time.
+
+8. Amazon Neptune: Haven't tried it
 
 **Why are graph databases called triplestores, how do they compare to quadstores?**
 
@@ -118,6 +122,16 @@ The main difference is that they aim to solve different problems. RDF arose as a
 I make the decision between the two based on the product requirements. Is the goal to share information, leverage the semantic web, or utilize complex logical reasoning? RDF. Is data science being done in a way that requires ACID transactions and high availability? LPG.
 
 # LPG
+
+**Who are the major LPG vendors?**
+
+1. Neo4j: The OG LPG. The company is known to be greedy but have (right now) the most feature comprehensive graph database
+
+1. Amazon Neptune: Amazon's cloud based graph offering. SUpports RDF & LPG
+
+1. Kuzu: Used to be an open source LPG but the owner archived the project without any word.
+
+1. Memgraph: Like Neo4j but cheaper
 
 
 ## Neo4j
@@ -195,3 +209,5 @@ Stored procedures should be used to improve query performance by manually levera
 1. The main Neo4j query interface displays CYPHER query results. I've found that I hit performance issues when visualizing large number of nodes and the visualization window is fairly small.
 2. Neo4j offers Neodash, which is a dashboard application built on top of Neo4j. It allows for quick control creation (pie charts, bar charts, etc) from CYPHER queries. It's a great way to show summaries of data, but not for the overall network structure.
 3. Neo4j also has a Gephi plugin that allows for sending data from a CYPHER query directly to Gephi where it can be visualized. Gephi is able to render large graphs and has a breadth of ways to tweak the visualizations. This is my go-to for visualizing large graphs however, the setup process can be cumbersome and I don't ask others to replicate the process.
+4. Non-free tools like G.V()
+
