@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transforming Knowledge Graphs to LPG with KG2PG :: Thomas Thelen</title>
+<meta name="description" content="Transforming RDF knowledge graphs into labeled property graphs with KG2PG, using SHACL shapes to drive the mapping into Neo4j.">
+<link rel="icon" href="/images/favicon.ico">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transforming Knowledge Graphs to LPG with KG2PG">
+<meta property="og:description" content="Transforming RDF knowledge graphs into labeled property graphs with KG2PG, using SHACL shapes to drive the mapping into Neo4j.">
+<meta property="og:url" content="https://thomasthelen.com/blogs/testing-s3pg.html">
+<meta property="og:image" content="https://thomasthelen.com/images/bio-photo.png">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body id="top">
+
+  <nav class="navbar">
+    <a class="brand" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>
+      <span class="light">Thomas</span>&nbsp;<b>Thelen</b>
+    </a>
+    <div class="navlinks">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#talks">Talks</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="post">
+    <div class="container">
+      <a class="back" href="../index.html#writing">&larr; Writing</a>
+      <h1 class="post-title">Transforming Knowledge Graphs to LPG with KG2PG</h1>
+      <div class="post-meta">Posted 2025-07-08 &middot; <span class="tag">knowledge-graph</span></div>
+      <div class="post-body">
+<h2>Background</h2>
+<p>If you're reading this, then chances are you already know that there are two predominant frameworks for graph technology: RDF and LPG. Graphs in each framework differ from each other in several critical areas, mostly due to each solving a different set of problems. While RDF aims to describe web resources while supporting logical reasoning on its data, LPG focuses more on data science applications. Bringing these concepts over to RDF has been a topic of a number of papers; I've listed a few below to get an idea of interest in the field (don't actually read them).</p>
+<p>2010 - <a href="https://openproceedings.org/EDBT/2014/edbticdt2014industrial_submission_28.pdf" target="_blank" rel="noopener noreferrer">A Tale of Two Graphs: Property Graphs as RDF in Oracle</a></p>
+<p>2014 - <a href="https://arxiv.org/pdf/1409.3288" target="_blank" rel="noopener noreferrer">Reconciliation of RDF* and property graphs</a></p>
+<p>2016 - <a href="https://www.researchgate.net/publication/309695477_RDF_Data_in_Property_Graph_Model" target="_blank" rel="noopener noreferrer">RDF data in property graph model</a></p>
+<p>2018 - <a href="https://ceur-ws.org/Vol-2275/paper14.pdf" target="_blank" rel="noopener noreferrer">Getting the best of Linked Data and Property Graphs: rdf2neo and the KnetMiner Use Case</a></p>
+<p>2018 - <a href="https://arxiv.org/abs/1812.01801" target="_blank" rel="noopener noreferrer">Mapping RDF graphs to property graphs</a></p>
+<p>2019 -  <a href="https://dl.acm.org/doi/abs/10.1007/978-3-030-30952-7_41" target="_blank" rel="noopener noreferrer">A unified relational storage scheme for RDF and property graphs</a></p>
+<p>2019 - <a href="https://ceur-ws.org/Vol-2369/paper01.pdf" target="_blank" rel="noopener noreferrer">RDF and Property Graphs Interoperability: Status and Issues</a></p>
+<p>2020 - <a href="https://www.researchgate.net/profile/Stefano-Ferilli/publication/344427830_The_GraphBRAIN_System_for_Knowledge_Graph_Management_and_Advanced_Fruition/links/61997ff9d7d1af224b11eaa9/The-GraphBRAIN-System-for-Knowledge-Graph-Management-and-Advanced-Fruition.pdf" target="_blank" rel="noopener noreferrer">The GraphBRAIN System for Knowledge Graph Management and Advanced Fruition</a></p>
+<p>2020 - <a href="https://arxiv.org/abs/2203.06393" target="_blank" rel="noopener noreferrer">G2GML: Graph to Graph Mapping Language for Bridging RDF and Property Graphs</a></p>
+<p>2020 - <a href="http://ieeexplore.ieee.org/document/9088985/" target="_blank" rel="noopener noreferrer">Mapping rdf databases to property graph databases</a></p>
+<p>2020 - <a href="https://ieeexplore.ieee.org/document/9115617/" target="_blank" rel="noopener noreferrer">Describing Property Graphs in RDF</a></p>
+<p>2020 - <a href="https://dl.acm.org/doi/10.1145/3410352.3410833" target="_blank" rel="noopener noreferrer">Transforming RDF to Property Graph in Hugegraph</a></p>
+<p>2021 - <a href="https://arxiv.org/pdf/2009.07410" target="_blank" rel="noopener noreferrer">Semantic Property Graph for Scalable Knowledge Graph Analytics</a></p>
+<p>2022 - <a href="https://journals.sagepub.com/doi/pdf/10.3233/SW-223273" target="_blank" rel="noopener noreferrer">The OneGraph vision: Challenges of breaking the graph model lock-in</a></p>
+<p>2022 - <a href="https://dl.acm.org/doi/pdf/10.1145/3534540.3534695" target="_blank" rel="noopener noreferrer">Converting property graphs to RDF: a preliminary study of the practical impact of different mappings</a></p>
+<p>2022 - <a href="https://vbn.aau.dk/files/500778152/paper2.pdf" target="_blank" rel="noopener noreferrer">Transforming RDF-star to Property Graphs: A Preliminary Analysis of Transformation Approaches</a></p>
+<p>2022 - Converting Property Graphs to RDF: A Preliminary Study of the Practical Impact of Different Mappings</p>
+<p>2020 - <a href="https://ceur-ws.org/Vol-3194/paper31.pdf" target="_blank" rel="noopener noreferrer">LPG-based Ontologies as Schemas for Graph DBs</a></p>
+<p>2023 - <a href="https://www.mdpi.com/2076-3417/13/21/11782" target="_blank" rel="noopener noreferrer">SKATEBOARD: semantic knowledge advanced tool for extraction, browsing, organisation, annotation, retrieval, and discovery</a></p>
+<p>2024 - <a href="https://ceur-ws.org/Vol-3828/paper29.pdf" target="_blank" rel="noopener noreferrer">openCypher over RDF: Connecting Two Worlds</a></p>
+<p>2024 - <a href="https://ceur-ws.org/Vol-3828/paper44.pdf" target="_blank" rel="noopener noreferrer">openCypher Queries over Combined RDF and LPG Data in Amazon Neptune</a></p>
+<p>2024 - <a href="https://link.springer.com/chapter/10.1007/978-981-97-5575-2_27" target="_blank" rel="noopener noreferrer">Statement Graphs: Unifying the Graph Data Model Landscape</a></p>
+<p>2024 - <a href="https://www.mdpi.com/2078-2489/15/9/565" target="_blank" rel="noopener noreferrer">LPG Semantic Ontologies: A Tool for Interoperable Schema Creation and Management</a></p>
+<p>My point here is that it's a topic people actively think and write about. When new papers are published about reconciliations between RDF and LPG - they're almost always exploring some small aspect (reasoning, or rdf*, or some other aspect under special conditions). Because of the asterisks, caution, and red tape that usually comes with converting RDF to LPG - I tend to avoid the conversion process.</p>
+<h2>Enter: Lossless Transformations of Knowledge Graphs to Property Graphs using Standardized Schemas</h2>
+<p>This paper was published in 2024 from the DKW Group at Aalborg University, Denmark. Based on the title, it sounds like they're using a standardized glue format to bridge the RDF and LPG models; to me this belongs in my bucket of metarepresentation solutions. In fact, the Abstract lays it all out.</p>
+<blockquote>
+<p>To enhance the interoperability of the two models, we present a novel technique, S3PG, to convert RDF knowledge graphs into property graphs exploiting two popular standards to express schema constraints, i.e., SHACL for RDF and PG-Schema for property graphs.</p>
+</blockquote>
+<p>So there you have it. By using SHACL and PG-Schema you can transform your RDF knowledge graph to LPG. The authors released a a tool, <a href="https://github.com/dkw-aau/KG2PG" target="_blank" rel="noopener noreferrer">KG2PG</a>, on GitHub which allows mere mortals to convert their RDF to LPG.</p>
+<p><strong>Important Note</strong>: The tool relies on Neo4j's NeoSemantics plugin and writes data in a Neo4j specific format. If you're using other graph databases - this tool might not be for you.</p>
+<h2>Evaluation</h2>
+<p>When it comes to testing RDF-&gt;LPG systems I find it easiest to focus on small bits of data at a time. To evaluate S3PG I'm deciding to use the foaf ontology with a fairly light A-Box, just enough to cover several cases. I don't believe there are official foaf SHACL shapes available however, the S3PG documentation suggests using <a href="https://github.com/dkw-aau/qse" target="_blank" rel="noopener noreferrer">QSE</a> to extract SHACL shapes from RDF data.</p>
+<h3>Step 1: Test Data</h3>
+<p>The simple abox below describes three people and two organizations. It's fairly light, but should give us something to look at as an LPG.</p>
+<pre><code>@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+&lt;http://thomasthelen.com/novocab/person_1&gt; a foaf:Person;
+    foaf:name &quot;Thomas Thelen&quot; ;
+    foaf:nick &quot;Cool guy&quot; ;
+    foaf:publications &quot;https://thomasthelen.com/publications/&quot; ;
+    foaf:knows &lt;http://thomasthelen.com/novocab/person_2&gt; .
+
+&lt;http://thomasthelen.com/novocab/person_2&gt; a foaf:Person;
+    foaf:name &quot;Jane&quot; ;
+    foaf:knows &lt;http://thomasthelen.com/novocab/person_1&gt; ;
+    foaf:knows &lt;http://thomasthelen.com/novocab/person_3&gt; .
+
+&lt;http://thomasthelen.com/novocab/person_3&gt; a foaf:Person;
+    foaf:name &quot;Jerry&quot; ;
+    foaf:knows &lt;http://thomasthelen.com/novocab/person_2&gt; .
+
+&lt;http://thomasthelen.com/novocab/org_1&gt; a foaf:Organization;
+    foaf:name &quot;Evil megacorp&quot; ;
+    foaf:website &quot;https://www.google.com/&quot; .
+
+&lt;http://thomasthelen.com/novocab/org_2&gt; a foaf:Organization;
+    foaf:name &quot;Evil megacorp II&quot; ;
+    foaf:website &quot;https://www.microsoft.com/&quot; .
+</code></pre>
+<h3>Step 2: Generate SHACL Shapes</h3>
+<p>To generate the SHACL shapes you'll have to jump through a few hoops.</p>
+<ol>
+<li>Clone QSE</li>
+<li>Convert the ttl to n-triples</li>
+<li>Safe the file somewhere</li>
+<li>Open up the config.properties from the QSE root directory</li>
+<li>Modify the paths to match where your data file is, and change the QSE directories to match your path</li>
+<li>Run <code>java -jar -Xmx16g jar/qse.jar config.properties &amp;&gt; output.logs</code></li>
+<li>Check the log file to make sure it worked</li>
+<li>Find the shapes in the Output/ folder</li>
+</ol>
+<h3>Step 3: Run KG2PG</h3>
+<p>KG2PG comes as an executable jar that looks for the shapes and data in a folder called <code>./data</code>.</p>
+<ol>
+<li>Download KG2PG with <code>wget https://github.com/dkw-aau/KG2PG/releases/latest/download/kg2pg-v1.0.4.jar</code></li>
+<li>Create a <code>./data/</code> folder</li>
+<li>Place the SHACL shapes and data in the folder</li>
+<li>Modify config.properties to point to your data file and shapes file</li>
+<li>Run KG2PG with <code>java -jar kg2pg-v1.0.4.jar</code></li>
+</ol>
+<p>The output should appear in the <code>./Output</code> folder. Note that there are several different files. If you open them - they should look like they have <em>something</em> to do with your original dataset.</p>
+<p>KG2PG has several other features, for example it can do change data capture on new data and also abstracts the process of putting the data in Neo4j. We won't make use of the first feature however, we will put the data in Neo4j to validate.</p>
+<h3>Step 4: Loading into Neo4j</h3>
+<p>Now that the Neo4j data artifacts have been created, it's time to load them with the <code>neo4j-admin</code> tool. Each neo4j repositorydatabase has it's own <code>./bin</code> folder, which is where the tool lives.</p>
+<ol>
+<li>Begin by creating a new new4j database</li>
+<li>Add the NeoSemantics and cypher plugins</li>
+<li>Open the neo4j terminal (see image below)</li>
+<li><code>cd bin</code></li>
+<li>Run <code>./neo4j-admin database import full --delimiter="|" --array-delimiter=";" --nodes=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_NODES_LITERALS.csv --nodes=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_NODES_WD_LABELS.csv --relationships=~/KG2PG/Output/data_2025-07-08_09-22-32_1751991752380/PG_RELATIONS.csv</code> (replace my paths with yours)</li>
+<li>Open the Neo4j browser and check the graph</li>
+</ol>
+<p><strong>Neo4j terminal</strong>
+<img alt="" src="../images/posts/kg2pg/neo4j-terminal.png" /></p>
+<p><strong>Output of the tool</strong></p>
+<p><img alt="" src="../images/posts/kg2pg/tool-output.png" /></p>
+<p><strong>Neo4j browser</strong></p>
+<p>The time has finally come to look at the data as a labeled property graph. The first image below shows the three people, defined above in the RDF. Note how the name, nick, other string values are treated as first class nodes rather than as properties.</p>
+<p><img alt="" src="../images/posts/kg2pg/persons.png" /></p>
+<p>Same deal with the Organization node types.</p>
+<p><img alt="" src="../images/posts/kg2pg/orgs.png" /></p>
+<h2>Concluding thoughts</h2>
+<p>The two tools create a neat pipeline for getting RDF data into Neo4j. <em>I'm still not sure how this compares to importing RDF with NeoSemantics</em>. With NeoSemantics, it's possible to import RDF data as-is, which seems to give okay results. As the LPG/RDF spaces continue to converge, I'll be keeping my eyes open for solutions with less configuration and process.</p>
+      </div>
+    </div>
+  </article>
+
+  <footer>&copy; 2026 Thomas Thelen &middot; Carmel, California</footer>
+
+</body>
+</html>

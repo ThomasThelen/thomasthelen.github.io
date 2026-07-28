@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+build.py — render Markdown posts in content/ into themed HTML in blogs/,
+then regenerate the homepage Writing list and sitemap.xml.
+
+Usage:  python3 build.py
+Requires: the `markdown` package  (pip install markdown)
+
+Each file in content/*.md starts with a frontmatter block:
+
+    ---
+    title: My Post Title
+    date: 2025-07-30
+    slug: my-post            # optional; defaults to the filename
+    tags: knowledge-graph, rdf
+    description: One-line summary used for <meta> and social cards.
+    draft: false             # true = build the page but hide it from the
+                             #        homepage list and sitemap
+    ---
+
+    Markdown body goes here...
+"""
+
+import os, re, glob
+import markdown
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+CONTENT = os.path.join(ROOT, "content")
+BLOGS = os.path.join(ROOT, "blogs")
+SITE = "https://thomasthelen.com"
+
+FONTS = ('<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700'
+         '&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">')
+BRAND = ('<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" '
+         'stroke="#fff" stroke-width="2"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>')
+
+NAV = f'''  <nav class="navbar">
+    <a class="brand" href="../index.html">
+      {BRAND}
+      <span class="light">Thomas</span>&nbsp;<b>Thelen</b>
+    </a>
+    <div class="navlinks">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#talks">Talks</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>'''
+
+
+def parse_frontmatter(text):
+    if not text.startswith("---"):
+        raise ValueError("missing frontmatter")
+    _, fm, body = text.split("---", 2)
+    meta = {}
+    for line in fm.strip().splitlines():
+        if ":" in line:
+            k, v = line.split(":", 1)
+            meta[k.strip()] = v.strip()
+    return meta, body.lstrip("\n")
+
+
+def add_target_blank(html):
+    """External links open in a new tab (internal/relative/mailto stay put)."""
+    return re.sub(r'<a href="(https?://[^"]*)"(?![^>]*\btarget=)',
+                  r'<a href="\1" target="_blank" rel="noopener noreferrer"', html)
+
+
+def render_post(meta, body_md):
+    html = markdown.markdown(
+        body_md,
+        extensions=["fenced_code", "tables", "sane_lists", "attr_list", "md_in_html"],
+    )
+    html = add_target_blank(html)
+
+    title = meta["title"]
+    slug = meta["slug"]
+    desc = meta.get("description", "")
+    tags = [t.strip() for t in meta.get("tags", "").split(",") if t.strip()]
+    tag_html = "".join(f' &middot; <span class="tag">{t}</span>' for t in tags)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title} :: Thomas Thelen</title>
+<meta name="description" content="{desc}">
+<link rel="icon" href="/images/favicon.ico">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{SITE}/blogs/{slug}.html">
+<meta property="og:image" content="{SITE}/images/bio-photo.png">
+<meta name="twitter:card" content="summary">
+{FONTS}
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body id="top">
+
+{NAV}
+
+  <article class="post">
+    <div class="container">
+      <a class="back" href="../index.html#writing">&larr; Writing</a>
+      <h1 class="post-title">{title}</h1>
+      <div class="post-meta">Posted {meta["date"]}{tag_html}</div>
+      <div class="post-body">
+{html}
+      </div>
+    </div>
+  </article>
+
+  <footer>&copy; 2026 Thomas Thelen &middot; Carmel, California</footer>
+
+</body>
+</html>
+'''
+
+
+def main():
+    posts = []
+    for path in sorted(glob.glob(os.path.join(CONTENT, "*.md"))):
+        text = open(path, encoding="utf-8").read()
+        meta, body = parse_frontmatter(text)
+        meta.setdefault("slug", os.path.splitext(os.path.basename(path))[0])
+        meta["draft"] = str(meta.get("draft", "false")).lower() == "true"
+        out = os.path.join(BLOGS, meta["slug"] + ".html")
+        open(out, "w", encoding="utf-8").write(render_post(meta, body))
+        posts.append(meta)
+        print(f"built blogs/{meta['slug']}.html" + ("  (draft)" if meta["draft"] else ""))
+
+    listed = sorted([p for p in posts if not p["draft"]],
+                    key=lambda p: (p["date"], p["title"]), reverse=True)
+
+    # homepage Writing list
+    idx_path = os.path.join(ROOT, "index.html")
+    idx = open(idx_path, encoding="utf-8").read()
+    items = "\n".join(
+        f'        <li><span class="date">{p["date"]}</span>'
+        f'<a href="blogs/{p["slug"]}.html">{p["title"]}</a></li>' for p in listed)
+    block = ("<!-- WRITING:START (generated by build.py — do not edit by hand) -->\n"
+             "      <ul class=\"writing\">\n" + items +
+             "\n      </ul>\n      <!-- WRITING:END -->")
+    idx = re.sub(r"<!-- WRITING:START.*?<!-- WRITING:END -->", block, idx, flags=re.S)
+    open(idx_path, "w", encoding="utf-8").write(idx)
+    print(f"updated index.html Writing list ({len(listed)} posts)")
+
+    # sitemap
+    locs = [f"{SITE}/", f"{SITE}/cv.html"] + [f"{SITE}/blogs/{p['slug']}.html" for p in listed]
+    sm = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+          + "".join(f"  <url><loc>{u}</loc></url>\n" for u in locs)
+          + "</urlset>\n")
+    open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)
+    print(f"wrote sitemap.xml ({len(locs)} urls)")
+
+
+if __name__ == "__main__":
+    main()

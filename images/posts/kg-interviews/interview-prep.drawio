@@ -214,7 +214,7 @@
         <mxCell id="AMePOtBjsKEPTRVgxOyA-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;strokeWidth=2;" parent="1" source="AMePOtBjsKEPTRVgxOyA-87" target="AMePOtBjsKEPTRVgxOyA-91" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="AMePOtBjsKEPTRVgxOyA-87" value="Trix" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="AMePOtBjsKEPTRVgxOyA-87" value="TriX" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="402.5" y="997.5" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="AMePOtBjsKEPTRVgxOyA-89" value="Subset of" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="AMePOtBjsKEPTRVgxOyA-88" target="AMePOtBjsKEPTRVgxOyA-87" edge="1">
@@ -324,7 +324,7 @@
         <mxCell id="AMePOtBjsKEPTRVgxOyA-128" value="Database driver keeps track of routing table" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1258.5" y="565" width="241.5" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="AMePOtBjsKEPTRVgxOyA-129" value="Makes use of neo4j&#39;s load balacing" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="AMePOtBjsKEPTRVgxOyA-129" value="Makes use of neo4j&#39;s load balancing" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1032.0100000000002" y="600" width="196.25" height="30" as="geometry" />
         </mxCell>
         <mxCell id="AMePOtBjsKEPTRVgxOyA-130" value="Enables connecting to individual nodes" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -357,7 +357,7 @@
         <mxCell id="AMePOtBjsKEPTRVgxOyA-139" value="Simple s, p, o statements" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="240" y="1223.75" width="130" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="AMePOtBjsKEPTRVgxOyA-140" value="Can be faster to programatically parse" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="AMePOtBjsKEPTRVgxOyA-140" value="Can be faster to programmatically parse" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="245" y="1263.75" width="130" height="30" as="geometry" />
         </mxCell>
         <mxCell id="AMePOtBjsKEPTRVgxOyA-141" value="Compatible with json tools" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -414,7 +414,7 @@
         <mxCell id="AMePOtBjsKEPTRVgxOyA-161" value="Cluster support via RDF Delta" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="223" y="1567" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="AMePOtBjsKEPTRVgxOyA-162" value="Supports API access through Fueski" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="AMePOtBjsKEPTRVgxOyA-162" value="Supports API access through Fuseki" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="200" y="1600" width="202.5" height="30" as="geometry" />
         </mxCell>
         <mxCell id="AMePOtBjsKEPTRVgxOyA-165" value="In development since 2017" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -504,7 +504,7 @@
         <mxCell id="AMePOtBjsKEPTRVgxOyA-199" value="Supports edge properties as key/value pairs" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1250" y="330" width="175" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="AMePOtBjsKEPTRVgxOyA-200" value="Supports edge proper" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="AMePOtBjsKEPTRVgxOyA-200" value="No native logical reasoning" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1250" y="365" width="175" height="30" as="geometry" />
         </mxCell>
         <mxCell id="AMePOtBjsKEPTRVgxOyA-201" value="Logical reasoning built into the framework" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">

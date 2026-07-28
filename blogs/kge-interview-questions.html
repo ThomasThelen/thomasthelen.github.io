@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Graph Engineer Interview Questions :: Thomas Thelen</title>
+<meta name="description" content="Knowledge graph engineer interview questions and answers covering RDF, RDFS, OWL, SPARQL, triplestores, and LPG.">
+<link rel="icon" href="/images/favicon.ico">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Knowledge Graph Engineer Interview Questions">
+<meta property="og:description" content="Knowledge graph engineer interview questions and answers covering RDF, RDFS, OWL, SPARQL, triplestores, and LPG.">
+<meta property="og:url" content="https://thomasthelen.com/blogs/kge-interview-questions.html">
+<meta property="og:image" content="https://thomasthelen.com/images/bio-photo.png">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body id="top">
+
+  <nav class="navbar">
+    <a class="brand" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>
+      <span class="light">Thomas</span>&nbsp;<b>Thelen</b>
+    </a>
+    <div class="navlinks">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#talks">Talks</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="post">
+    <div class="container">
+      <a class="back" href="../index.html#writing">&larr; Writing</a>
+      <h1 class="post-title">Knowledge Graph Engineer Interview Questions</h1>
+      <div class="post-meta">Posted 2025-07-30 &middot; <span class="tag">knowledge-graph</span></div>
+      <div class="post-body">
+<p>At its core, Knowledge graph engineering is about solving problems by utilizing graph data structures. You may be expressing semantics in predicate logic, computing shortest paths across a network, attaching information to nodes in a netowrk to enhance information retrieval, writing graph database internals, creating node mebeddings for recommendation systems, or creating networks of customers for entity resolution; these are all tried and true places where graphs have found use. To <em>do</em> knowledge graph engineering requires stong systems engineering skills, basic foundations in network science, the ability to read math up to Algebra, and . My reasoning is that </p>
+<ol>
+<li>The knowledge graph is only part of a larger system encompasing several backend roles: data pipelines, database administration, and usually supportinhg (or working on) the application layer sitting above the database. </li>
+<li>To - these terms come from and are defined in network science.</li>
+</ol>
+<p>When it comes to interviewing for a knolwedge graph engineer role, it's important to keep in mind that there are core concepts interviewers will be looking for. These topics usually include schema design, database vendor questions, .</p>
+<h1>Cheat Sheet</h1>
+<p><img alt="" src="../images/posts/kg-interviews/prep.svg" /></p>
+<h1>RDF/RDFS</h1>
+<p>RDF is a core piece to the semantic web stack, shown below. Havin an understanding the different layers in the stack help navigate engineering requirements and system design. When interviewing for an RDF role, be prepared to talk about any of the topics in the stack, but focus on core RDF and systems concepts.</p>
+<h2>Interview Questions</h2>
+<p><strong>What do rdfs:domain and rdfs:range do?</strong></p>
+<p>This is usually one of the first questions that probe for basic knowledge around the first two predicates in the rdfs vocabulary: <code>rdfs:domain</code> and <code>rdfs:range</code>. </p>
+<p>The most common incorrect answer is usually that <code>rdfs:domain</code> and <code>rdfs:range</code> place restrictions on the data, the thought process usually being that there is some mechanism to keep a node from being typed based on the restrictions (<em>that</em> would be the role of SHACL).</p>
+<p>Instead, the role of <code>rdfs:domain</code> <code>rdfs:range</code> are to provide the logical reasoner with a r</p>
+<p>the following ontology snippet states that the domain and range of the relation <code>tt:knows</code> are <code>foaf:Person</code>.</p>
+<pre><code>@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix tt: &lt;http://example.org/ontology/&gt; .
+
+tt:Person a owl:Class ;
+    rdfs:label &quot;Person&quot; ;
+
+tt:Dog a owl:Class ;
+    rdfs:label &quot;Dog&quot; ;
+
+# Object Properties
+tt:knows a owl:ObjectProperty ;
+    rdfs:label &quot;knows&quot; ;
+    rdfs:domain tt:Person ;
+    rdfs:range tt:Person ;
+    a owl:SymmetricProperty .
+
+tt:SparkyTheDog a tt:Dog .
+tt:CharlesTheDog a tt:Dog .
+</code></pre>
+<p>The misconception arises as a bug when the a-box, <code>&lt;tt:SparkyTheDog&gt; tt:knows &lt;tt:CharlesTheDog&gt;</code> is inserted into the graph and the relations <code>&lt;tt:SparkyTheDog&gt; rdf:type tt:Person</code> and <code>&lt;tt:CharlesTheDog&gt; rdf:type tt:Person</code> materialize, which is clearly incorrect - but can be traced back to the domain and range axioms previously declared.</p>
+<p><strong>How are types attached to nodes?</strong></p>
+<p>One difference between . This disconnect can be examined by being asked to explain how properties (Eg types) are attached to nodes. The answer should follow that the properties become nodes in the graph, connected with the predicate.</p>
+<p><strong>What reasoning can be done with RDFS? How?</strong></p>
+<p><strong>What is the difference between RDF, RDFS, and OWL?</strong></p>
+<p>These three technologies form a hierarchy of expressibility, starting with RDF as the base, RDFS as the middleground, and OWL building on top of the two for maximum expressivity.</p>
+<ol>
+<li>RDF: The base graph data model that is utilized by RDFS and OWL. No one really thinks of this when working with RDF (second nature).</li>
+<li>RDFS: Builds on RDF by providing a basic vocabulary for building other vocabularies. It supports fairly basic reasoning around class hierarchy and properties. I almost always have some sort of RDFS going on in my ontologies.</li>
+<li>OWL: Provides additional vocabulary for building more complex ontologies that support enhanced reasoning capabilities (think class intersection, cardinality, etc). This usually enters the picture when some sort of reasoning on the data needs to happen to fill the gap between the source data and the target queries.</li>
+</ol>
+<p><strong>What kinds of reasoning can be done in OWL?</strong></p>
+<p>Within the OWL ecosystem, there are several <em>profiles</em> that have guarantees around decidability and supported reasoning strategies. Picking the appropriate profile can be a matter of looking at the types of target queries and the source data - the OWL profile provides the glue between the two.</p>
+<ol>
+<li>The most common reasoning strategy is RDFS which is guaranteed to be decidable however, it lacks expressive reasoning (mostly subclass reasoning). Because it relies solely on RDFS, it's not an OWL profile. One strategy is to choose RDFS reasoning and then add rules on top of it, if the graph database supports this type of functionality (for example, Jena and GraphDB)</li>
+<li>OWL Full: The full OWL superset that includes all features in OWL. I've never seen this profile used in production, likely due to it being undecidable for some axioms (although I don't think I've ever seen undecidability in practice).</li>
+<li>OWL DL: The first subset of OWL which I've also never seen, likely due to exponential complexity guarantees: O(2^polynomial). It also includes a number of OWL features that usually aren't essential.</li>
+<li>OWL EL: Provides existential quantifiers on class axioms however it lacks support for features such as negation, unions, and cardinality restrictions. It guarantees polynomial time complexity which is better than OWL DL.</li>
+<li>OWL QL: Guarantees logarithmic scaling w.r.t axioms and is focused more on query-intensive applications (hence QL for query language). Like EL, it lacks cardinality restrictions and quantifiers. I've seen this in use in several production systems.</li>
+<li>OWL RL: This profile also guarantees polynomial time complexity for reasoning tasks, and places an emphasis on systems that heavily leverage reasoning. From what I've seen - most applications place an emphasis on queryability and less on advanced reasoning. This is probably the reason why I've never seen it used in production systems.</li>
+</ol>
+<p><img alt="" src="../images/posts/kg-interviews/owl.svg" /></p>
+<p><strong>What are the major triplestore vendors?</strong></p>
+<p>Having a base landscape view of the different graph vendors; there's a change the comapny doing the hiring is using one of these</p>
+<ol>
+<li>Apache Jena: My go-to for RDF work. It's been around for 25+ years, is open source, supports enterprise features, hasa UI (Fuseki) and is free.</li>
+<li>RDF4J: Another open source RDF solution that's had years of community development.</li>
+<li>GraphWise GraphDB: This used to be my go-to until the recent licensing changes. It's a great out-of-the-box solution that includes an intuitive interface. The enterprise version supports additional features like HA clusters.</li>
+<li>Stardog: Another closed source graph database that provides an out-of-the-box experience. It's locked behind hefty licensing which makes evaluation difficult.</li>
+<li>QLever: Lightweight, comes with a UI, supports geosparql, and is free.</li>
+<li>Openlink Virtuoso: Solid graph database that supports billions of nodes with ease. Also involved with the community for some time.</li>
+<li>Amazon Neptune: Haven't tried it</li>
+</ol>
+<p><strong>Why are graph databases called triplestores, how do they compare to quadstores?</strong></p>
+<p>Graph databases that support RDF are sometimes referred to as <em>triplestores</em> because they store RDF triples (s, p, o). Most triplestores are actually quadstores, which support named graphs (s,p,o,g). For historical reasons, most people just say <em>triplestore</em> when referring to quadstores.</p>
+<p><strong>When would you use the turtle format instead of n-triples?</strong></p>
+<p>There are a couple of times when using turtle has advantages over n-triples:</p>
+<ol>
+<li>Human readability is better with turtle</li>
+<li>Data compression is often better with turtle because of the prefix manifest. When transferring or storing data this could be the optimal format.</li>
+<li>Some graph databases import data faster as turtle instead of n-triples. Be careful though - others operate faster on n-triples, presumably because the prefix manifest doesn't need to be parsed.</li>
+</ol>
+<p>A similar question is comparing trix vs n-quads, which effectively has the same answer.</p>
+<p><strong>How does SPARQL compare to SQL?</strong></p>
+<p>SPARQL queries can generally be transformed to SQL through algebraic processes and differs by placing an emphasis on traversing graph paths. Joins are completed by the processing engine rather than being explicitly stated, as done in SQL. This is true for most graph query languages, including ones for LPG.</p>
+<p><strong>What is the underlying data structure for most graph databases?</strong></p>
+<p>Most graph databases utilize a table structure and place heavy reliance on indexes. Common indexes seen in RDF are permutations of the SPO structure. These are SPO, PSO, OSP. When named graphs are present the permutations expand to include the graph: GSPO, etc.</p>
+<p>The heavy reliance on indexing creates issues scaling large knowledge graphs w.r.t hardware usage. Additionally, the lack of support from triplestores for data sharding compounds this issue.</p>
+<p><strong>What's the difference between RDF and LPG?</strong></p>
+<p>The main difference is that they aim to solve different problems. RDF arose as a solution to tagging data on the web, while LPG's original intent was to support network science at scale. The databases that we see today tell enough of the story - most triplestores don't have out-of-the-box data science platforms while most LPG's do.</p>
+<p>I make the decision between the two based on the product requirements. Is the goal to share information, leverage the semantic web, or utilize complex logical reasoning? RDF. Is data science being done in a way that requires ACID transactions and high availability? LPG.</p>
+<h1>Labeled Property Graphs</h1>
+<p><strong>Who are the major LPG vendors?</strong></p>
+<ol>
+<li>Neo4j: The OG LPG. The company is known to be greedy but have (right now) the most feature comprehensive graph database</li>
+<li>Amazon Neptune: Amazon's cloud based graph offering. SUpports RDF &amp; LPG</li>
+<li>Kuzu: Used to be an open source LPG but the owner archived the project without any word.</li>
+<li>Memgraph: Like Neo4j but cheaper</li>
+</ol>
+      </div>
+    </div>
+  </article>
+
+  <footer>&copy; 2026 Thomas Thelen &middot; Carmel, California</footer>
+
+</body>
+</html>

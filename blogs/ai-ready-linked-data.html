@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Improving Agentic Retrieval of Linked Data :: Thomas Thelen</title>
+<meta name="description" content="Improving Agentic Retrieval of Linked Data with W3C standards: SPARQL Service Description, VoID, and dereferenceable URIs.">
+<link rel="icon" href="/images/favicon.ico">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Improving Agentic Retrieval of Linked Data">
+<meta property="og:description" content="Improving Agentic Retrieval of Linked Data with W3C standards: SPARQL Service Description, VoID, and dereferenceable URIs.">
+<meta property="og:url" content="https://thomasthelen.com/blogs/ai-ready-linked-data.html">
+<meta property="og:image" content="https://thomasthelen.com/images/bio-photo.png">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body id="top">
+
+  <nav class="navbar">
+    <a class="brand" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg>
+      <span class="light">Thomas</span>&nbsp;<b>Thelen</b>
+    </a>
+    <div class="navlinks">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+      <a href="../index.html#publications">Publications</a>
+      <a href="../index.html#talks">Talks</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="post">
+    <div class="container">
+      <a class="back" href="../index.html#writing">&larr; Writing</a>
+      <h1 class="post-title">Improving Agentic Retrieval of Linked Data</h1>
+      <div class="post-meta">Posted 2025-07-29 &middot; <span class="tag">knowledge-graph</span></div>
+      <div class="post-body">
+<p>The semantic web's vision is to have highly structured information on the internet that's easy for agents to ingest. In this model, autonomous agents can freely navigate, understand, and make decisions while parsing web content. The World Wide Web Consortium (W3C) is largely responsible for fostering this effort, which has led to a number of standards and recommendations. The W3C blessed way of achieving the semantic web is by having HTTP dereferencable URI's (this allows agents to follow information like a linked list) and public SPARQL endpoints where data can be queried freely.</p>
+<p>Most people are able to easily deploy SPARQL endpoints however, few actually <em>describe</em> the endpoint itself: which SPARQL versions are supported, default settings, entailment regimes, and what may have changed in the data since their last visit. This lack of context around data access and endpoint capabilities can lead to poor performing queries, not finding the desired data, and poor agent performance.</p>
+<p>The W3C has several recommendations for describing data and services through a set of vocabularies and conventions for retrieving the SPARQL endpoint metadata over HTTP. By leveraging these technologies you can enable agents to better navigate your data and find what the information they're after.</p>
+<h2>1. Describe the SPARQL endpoint and datasets</h2>
+<p>SPARQL services can be opaque at times: it's difficult to tell which named graph you're in, what's <em>in</em> the named graph, what reasoning strategies are available, and which SPARQL version is supported. The <a href="https://www.w3.org/TR/sparql11-service-description/" target="_blank" rel="noopener noreferrer">SPARQL Service Description</a> specification provides a solution to this by providing an ontology that can be used to describe various aspects of the SPARQL endpoint.</p>
+<p>The gist is that the endpoint and data need to be annotated as an RDF document. The document is served when SPARQL endpoint is hit with a GET request <em>without attached query parameters</em>. The agent can then parse the RDF (it needs to have knowledge of the service description ontology) and can then query the data with full knowledge of what's possible.</p>
+<p>Consider a fictitious geospatial graph database that supports SPARQL access. It supports the RDFS reasoning strategy, federated querying, and has two named graphs. An appropriate service description could look like the following RDF.</p>
+<pre><code>@prefix sd: &lt;http://www.w3.org/ns/sparql-service-description#&gt; .
+@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
+@prefix rdfs: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+
+&lt;http://thomasthelen.com/not_a_real_sparql_endpoint&gt; a sd:Service ;
+  dcterms:description &quot;A fictitious SPARQL endpoint (pretend it's real)&quot; ;
+  sd:endpoint &lt;http://thomasthelen.com/not_a_real_sparql_endpoint&gt; ;
+  sd:feature sd:UnionDefaultGraph, sd:BasicFederatedQuery ;
+  sd:defaultEntailmentRegime sd:RDFSEntailment ;
+
+  sd:namedGraph [
+    a sd:NamedGraph ;
+    sd:name &lt;http://thomasthelen.com/not_a_real_sparql_endpoint/places&gt; ;
+    sd:graph [
+      a sd:Graph ;
+      dcterms:title &quot;Places named graph&quot;;
+      dcterms:description &quot;This named graph contains nodes that represent physical places in the United States. These include cities, airports, and coffee shops.&quot;;
+      rdfs:label &quot;Place&quot;;
+    ]
+  ];
+sd:namedGraph [
+    a sd:NamedGraph ;
+    sd:name &lt;http://thomasthelen.com/not_a_real_sparql_endpoint/roads&gt; ;
+    sd:graph [
+      a sd:Graph ;
+      dcterms:title &quot;Roads named graph&quot; ;
+      rdfs:label &quot;Roads&quot; ;
+      dcterms:description &quot;This named graph contains nodes that represent road intersections. They connect to each other, forming a road network of highways in the United States.&quot;;
+    ]
+  ].
+</code></pre>
+<p>An agent should be able to parse the above and realize that</p>
+<ol>
+<li>RDFS reasoning is enabled</li>
+<li>There are several named graphs, each with different kinds of data (pick the right one based on the description)</li>
+<li>Federated queries are on-limits</li>
+</ol>
+<p>The semantic web is all about exposing data in ways that make information retrieval and synthesis easier for machines. The first step to To let agents and machines know about your SPARQL service, the W3C has a standard for this: The Service Description Ontology (SDO). The gist is that, you can use SDO to annotate youe SPARQL service with information that can be useful to agents . This allows for others to link to your data, contributing to the linked open data cloud.</p>
+<p>The W3C <em>also</em> recommends documenting your SPARQL interface, so that the agents can. There's more though - the W3C provides an ontology, <strong>Service Description Ontology</strong>, which has terms for describing <strong><em>_</em></strong>.</p>
+<h2>High Level</h2>
+<p>When looking at a new ontology I like to first get a high level overview to identify the main classes</p>
+<p>00 Image of ontology here 00</p>
+<p>The gist is that, to document your SPARQL service,</p>
+<ol>
+<li>Create a new node of type <code>sd:Service</code></li>
+<li>Fill in the basic properties of the node
+   a.dd
+   b. sdd</li>
+<li>Create</li>
+</ol>
+<p>The following sections are a little dense, feel free to skip.</p>
+<h4>Services</h4>
+<p>Services have the <code>sd:Service</code> class and represent the SPARQL endpoint, which must support the SPARQL protocol.</p>
+<p>Image of service class with relevant properties</p>
+<h4>Datasets</h4>
+<p><code>sd:Dataset</code>
+This class represents an <a href="https://www.w3.org/TR/sparql11-query/#rdfDataset" target="_blank" rel="noopener noreferrer">RDF Dataset</a>, which is a concept from SPARQL. These are</p>
+<h4>Graphs</h4>
+<p><code>sd:Graph</code></p>
+<h4>NamedGraphs</h4>
+<p><code>sd:NamedGraph</code></p>
+<h4>GraphCollection</h4>
+<p><code>sd:GraphCollection</code></p>
+<h4>EntailmentRegime</h4>
+<p><code>sd:EntailmentRegime</code></p>
+<h4>EntailmentProfile</h4>
+<p><code>sd:EntailmentProfile</code></p>
+<h4>Feature</h4>
+<h4>Language</h4>
+<p>The <code>sd:Language</code> is a subclass of <code>sd:Feature</code>, which semantically means that this term is about a language feature. It describes the SPARQL version support.</p>
+<p>The <code>sd</code> vocabulary defines several instances based on this type.</p>
+<h4>Function</h4>
+<h4>Aggregate</h4>
+<h3>Data Properties</h3>
+<h3>Object Properties</h3>
+<h3>Putting it all together</h3>
+<h3>Example 1: Service Supporting all Features</h3>
+<pre><code>@prefix sd: &lt;http://www.w3.org/ns/sparql-service-description#&gt; .
+@prefix ent: &lt;http://www.w3.org/ns/entailment/&gt; .
+
+[] a sd:Service ;
+    sd:endpoint &lt;http://www.your_data_site.com/sparql/&gt; ;
+    sd:supportedLanguage sd:SPARQL11Query, sd:sd:SPARQL11Update ;
+    sd:resultFormat &lt;http://www.w3.org/ns/formats/Turtle&gt;, ;
+    sd:feature sd:DereferencesURIs ;
+    sd:defaultEntailmentRegime ent:RDFS ;
+    sd:defaultDataset &lt;mydata.com/dataset/1&gt;
+
+&lt;mydata.com/dataset/health&gt; a sd:Dataset ;
+  sd:defaultGraph &lt;mydata.com/repositories/health_data/default&gt;
+  sd:namedGraph &lt;mydata.com/repositories/health_data/cdc&gt;
+
+&lt;mydata.com/repositories/health_data/default&gt; a ;
+
+&lt;mydata.com/repositories/health_data/cdc&gt; a sd:NamedGraph;
+  sd:name
+  sd:entailmentRegime
+  sd:supportedEntailmentProfile
+  sd:graph &lt;mydata.com/repositories/health_data/cdc/graph&gt;
+
+&lt;mydata.com/repositories/health_data/cdc/graph&gt; a sd:Graph;
+  sd:name
+  void:triples 2000
+
+&lt;mydata.com/repositories/health_data/cdc/graph&gt; a sd:Graph;
+  sd:name
+  void:triples 2000
+</code></pre>
+<h3>Example 2: Dataset with two named graphs</h3>
+<h2>2. Describe the data</h2>
+<p>Not having adequate, accessible metadata of data holdings can lead to</p>
+<ol>
+<li>Agents querying your graph for data that you don't have (can waste resources, especially at scale)</li>
+<li>Agents scraping your data with SPARQL rather than finding the data dump</li>
+<li>Agents using unsupported vocabularies</li>
+</ol>
+<p>The W3C developed the <a href="https://www.w3.org/TR/void/" target="_blank" rel="noopener noreferrer">void</a> ontology for this specific purpose. The general idea is about the same as the service description file: host it as an RDF file and let agents download &amp; parse it.</p>
+<p>The location of the void file hasn't been standardized however, the W3C suggests several places to store the information:</p>
+<blockquote>
+<p>Popular options for publishing a VoID description alongside a dataset include:</p>
+</blockquote>
+<pre><code>1. Placing a Turtle file [TURTLE] named void.ttl in the root directory of the site, with a local “hash URI” for the dataset, yielding a dataset URI such as http://example.com/void.ttl#MyDataset.
+
+2. Using the root URI of the site, such as http://example.com/, as the dataset URI, and serving both HTML and an RDF format via content negotiation from that URI (see Cool URIs for the Semantic Web [COOL] for a more detailed description of this publishing approach).
+
+3. Embedding the VoID description as HTML+RDFa markup [RDFA] into the homepage of the dataset, with a local “hash URI” for the dataset, yielding a dataset URI such as http://example.com/#MyDataset
+</code></pre>
+<p>Building off of the previous example of a geospatial database, we begin by talking about the dataset as a whole (both subgraphs combined). There's some high level information about data licensing, who created it, vocabularies used, and which sub-datasets are in the graph.</p>
+<p>Further down in the record we actually describe each dataset where we can declare which classes are relevant, and how many entities are of each class type. <em>This provides important context for agents!</em></p>
+<pre><code>@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
+@prefix rdfs: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;http://example.org/dataset/library&gt; a void:Dataset ;
+    dcterms:title &quot;Geospatial Database&quot; ;
+    dcterms:description &quot;A dataset that contains geospatial data about places and road networks&quot; ;
+    dcterms:creator &lt;http://thomasthelen.com&gt; ;
+    dcterms:publisher &lt;http://thomasthelen.com&gt; ;
+    dcterms:created &quot;2025-07-15&quot;^^xsd:date ;
+    dcterms:modified &quot;2025-07-20&quot;^^xsd:date ;
+    dcterms:license &lt;http://creativecommons.org/licenses/by/4.0/&gt; ;
+
+    # Dataset statistics
+    void:triples 1000000 ;
+    void:entities 20000 ;
+    void:distinctSubjects 650000 ;
+    void:distinctObjects 900000 ;
+    void:properties 15 ;
+    void:distinctClasses 8 ;
+
+    void:sparqlEndpoint &lt;http://thomasthelen.com/not_a_real_sparql_endpoint&gt; ;
+    void:dataDump &lt;http://thomasthelen.com/data_dump.ttl.gz&gt; ;
+
+    void:vocabulary &lt;http://purl.org/dc/terms/&gt;, &lt;http://www.opengis.net/ont/geosparql#&gt;, &lt;http://www.opengis.net/def/function/geosparql/&gt; ;
+
+    void:subset &lt;http://example.org/dataset/library/books&gt;, &lt;http://example.org/dataset/library/authors&gt;, &lt;http://example.org/dataset/library/subjects&gt; .
+
+&lt;http://thomasthelen.com/not_a_real_sparql_endpoint/places&gt; a void:Dataset ;
+    dcterms:title &quot;Subset of Places&quot; ;
+    dcterms:description &quot;Dataset of places&quot; ;
+    void:triples 10000 ;
+    void:entities 4000 ;
+    void:class &lt;https://schema.org/Place&gt; ;
+    void:classPartition [
+        void:class &lt;https://schema.org/Place&gt; ;
+        void:entities 4000
+    ] .
+
+&lt;http://thomasthelen.com/not_a_real_sparql_endpoint/roads&gt; a void:Dataset ;
+    dcterms:title &quot;Subset of Roads&quot; ;
+    dcterms:description &quot;Dataset of roads&quot; ;
+    void:triples 10000 ;
+    void:entities 4000 ;
+    void:class &lt;https://schema.org/Road&gt; ;
+    void:classPartition [
+        void:class &lt;https://schema.org/Road&gt; ;
+        void:entities 4000
+    ] .
+</code></pre>
+<h2>3. Support Dereferenceable URI's</h2>
+<p>The HTTP framework supports the notion of content negotiation: the ability to request information in a particular format, specified in the <code>Accept</code> header. The essence of linked data is being able to navigate from one piece of information (the source) to another (the destination) and selecting the appropriate content via this feature. The allows agents to navigate in a linked-list like fashion while requesting the machine readable version of the content (typically in RDF).</p>
+<p><img alt="" src="../images/posts/ai-ready/node-deref.svg" /></p>
+<p>The gist is that an agent decides to request information about a web resource (specified by its URI). It sends a GET request and requests the response be in rdf/xml. The load balancer identifies a request that matches some vocabulary or resource term (eg, example.com/resources/<em>). Next, it forwards the request to an API which constructs a SPARQL query, sends it to the graph database, and replies with the data. The agent receives the data, parses it out and decides to request information on a</em> new* URI. It sends a GET request, and the process repeats.</p>
+<p><img alt="" src="../images/posts/ai-ready/cn-stack.svg" /></p>
+<p>Dereferencing is sometimes supported out-of-the-box by graph vendors for example, OpenLink Virtuoso. Other times it needs to be implemented by hand which typically consists of a load balancer and several systems that provide content in different formats.</p>
+<p>Supporting content negotiation across your web resources supports dereferencing graph data, supporting efficient navigation of agents across your URI space.</p>
+<h2>Conclusion</h2>
+<p>To enhance the searchability of your linked data holdings,</p>
+<ol>
+<li>Describe your SPARQL endpoint with <a href="https://www.w3.org/TR/sparql11-service-description/" target="_blank" rel="noopener noreferrer">SPARQL Service Description</a></li>
+<li>Describe the data itself with the <a href="https://www.w3.org/TR/void/" target="_blank" rel="noopener noreferrer">void</a> ontology</li>
+<li>Support dereferencable URI's</li>
+</ol>
+      </div>
+    </div>
+  </article>
+
+  <footer>&copy; 2026 Thomas Thelen &middot; Carmel, California</footer>
+
+</body>
+</html>
